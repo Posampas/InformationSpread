@@ -46,15 +46,17 @@ def mocked__request_get_user_by_id(*args, **kwargs):
 
     return MockResponse({"key":"val"}, 400)
     
+def mocked__request_get_user_timeline_id(*args, **kwargs):
+    return MockResponse({"key":"val"}, 200)
 
 class TwitterConncectionTest(unittest.TestCase):
     
 
     def setUp(self) -> None:
         self.correctToken = "Token"
-        self.invalidToken = "Invalid"
-        self._twitterConnection = con.Connection(self.correctToken)
-        self.assertIsNotNone(self._twitterConnection)
+        self.invalid_token = "Invalid"
+        self._twitter_connection = con.Connection(self.correctToken)
+        self.assertIsNotNone(self._twitter_connection)
 
   
         
@@ -66,9 +68,8 @@ class TwitterConncectionTest(unittest.TestCase):
 
     @mock.patch('requests.get', side_effect=mocked__request_get_user_by_id)
     def test_should_get_401_response_and_unauthorised_json(self, mock_get):
-        bearer_token = "Invalid"
-        twitterConnection = con.Connection(bearer_token)
-        response = twitterConnection.getUserById(_user_id)
+        twitter_connection = con.Connection(self.invalid_token)
+        response = twitter_connection.getUserById(_user_id)
         self.assertIsNotNone(response)
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json(), {
@@ -80,9 +81,7 @@ class TwitterConncectionTest(unittest.TestCase):
 
     @mock.patch('requests.get', side_effect=mocked__request_get_user_by_id)
     def test_should_get_data_of_the_user(self, mock_get):
-        bearer_token = "Token"
-        twitterConnection = con.Connection(bearer_token)
-        response = twitterConnection.getUserById(_user_id)
+        response = self._twitter_connection.getUserById(_user_id)
         self.assertIsNotNone(response)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {
@@ -105,19 +104,20 @@ class TwitterConncectionTest(unittest.TestCase):
     
     @mock.patch('requests.get', side_effect=mocked__request_get_user_by_id)
     def test_should_return_create_url_with_specified_user_id(self, mock_get):
-        bearer_token = "Token"
         user_id = 122333333
-        twitterConnection = con.Connection(bearer_token)
-        twitterConnection.getUserById(user_id)
+        self._twitter_connection.getUserById(user_id)
         url = "https://api.twitter.com/2/users/{}".format(user_id)
         self.assertEqual(url,mock_get.call_args_list[0][0][0], "Url not correctly created")
 
     
 
-    # def test_should_get_user_time_line(self):
-
-
-    # Co ja teraz chece zrobić? Chce zeby łączył się do twittera i pobierał informacje na temat uzytkownikow
+    @mock.patch('requests.get', side_effect=mocked__request_get_user_timeline_id)
+    def test_should_get_user_time_line(self, mock_get):
+        response = self._twitter_connection.get_user_time_line(_user_id)
+        self.assertIsNotNone(response)
+        url = "https://api.twitter.com/2/tweets/{}".format(_user_id)
+        self.assertEqual(url,mock_get.call_args_list[0][0][0], "Url not correctly created")
+        # 
         
 
 

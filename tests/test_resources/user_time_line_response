@@ -1,0 +1,60 @@
+{
+    "data": [
+        {
+            "lang": "pl",
+            "edit_history_tweet_ids": [
+                "1585145817396293632"
+            ],
+            "source": "Twitter for Android",
+            "text": "A najgorsze w tym jest, że wtedy polscy hierarchowie z radością o zaproszą do owych występów... https://t.co/haRE6LsNpi",
+            "created_at": "2022-10-26T05:46:28.000Z",
+            "id": "1585145817396293632"
+        },
+        {
+            "lang": "in",
+            "edit_history_tweet_ids": [
+                "1584550732191047681"
+            ],
+            "source": "Twitter for Android",
+            "text": "@AsiaNietop @Reset_Oby @IwonaDemko @grupaponton Cipologini",
+            "created_at": "2022-10-24T14:21:48.000Z",
+            "id": "1584550732191047681"
+        },
+        {
+            "lang": "pl",
+            "edit_history_tweet_ids": [
+                "1584550407119831042"
+            ],
+            "source": "Twitter for Android",
+            "text": "RT @DanielWachowiak: Msza. Po rozbudownanym \"przekażcie sobie znak pokoju\" konsekrowany w plastikach Najśw. Sakrament porwany przez wiatr.…",
+            "created_at": "2022-10-24T14:20:31.000Z",
+            "id": "1584550407119831042"
+        },
+        {
+            "lang": "und",
+            "edit_history_tweet_ids": [
+                "1584208733281714176"
+            ],
+            "source": "Twitter for Android",
+            "text": "RT @tarnowska_magda: 😉 https://t.co/tawsWck58k",
+            "created_at": "2022-10-23T15:42:49.000Z",
+            "id": "1584208733281714176"
+        },
+        {
+            "lang": "pl",
+            "edit_history_tweet_ids": [
+                "1583921239382376448"
+            ],
+            "source": "Twitter Web App",
+            "text": "Miałem 9 lat. Oglądałem większość meczy.\nProwadziłem nawet kajecik, w którym zapisywałem wszystkie wyniki.\n#MójPierwszyMundial\n\nhttps://t.co/VYmmtak1yx",
+            "created_at": "2022-10-22T20:40:25.000Z",
+            "id": "1583921239382376448"
+        }
+    ],
+    "meta": {
+        "result_count": 5,
+        "newest_id": "1585145817396293632",
+        "oldest_id": "1583921239382376448",
+        "next_token": "7140dibdnow9c7btw423wysghff0nn2wdepybrvft9d88"
+    }
+}
