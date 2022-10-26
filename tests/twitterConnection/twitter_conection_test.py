@@ -117,14 +117,57 @@ class TwitterConncectionTest(unittest.TestCase):
         self.assertIsNotNone(response)
         url = "https://api.twitter.com/2/tweets/{}".format(_user_id)
         self.assertEqual(url,mock_get.call_args_list[0][0][0], "Url not correctly created")
-        # 
+    
+    @mock.patch('requests.get', side_effect=mocked__request_get_user_timeline_id)
+    def test_should_add_to_request_all_twitt_params(self, mock_get):
+        self._twitter_connection.get_user_time_line(_user_id)
+        all_twitt_params = {    "tweet.fields":"created_at,text,geo,source,lang",
+                                "max_results" : 100,
+                                "place.fields" : "contained_within,country,country_code,full_name,geo,id,name,place_type",
+                                "expansions" : "geo.place_id"}
+        self.assertDictEqual(all_twitt_params, mock_get.call_args_list[0][1]['params'])
+
+    @mock.patch('requests.get', side_effect=mocked__request_get_user_timeline_id)
+    def test_should_query_user_timeline_from_specfied_token(self, mock_get):
+        next_token = "7140dibdnow9c7btw423wysghff0nn2wdepybrvft9d88"
+        self._twitter_connection.get_user_time_line(_user_id, next_token= next_token)
+        print(mock_get.call_args_list[0][1]['params'])
+        self.assertEqual(next_token, mock_get.call_args_list[0][1]['params']['pagination_token'], "Should add connection token to params when specified")
         
+        self._twitter_connection.get_user_time_line(_user_id)
+        self.assertNotIn('pagination_token', mock_get.call_args_list[1][1]['params'] )
+
+    @mock.patch('requests.get', side_effect=mocked__request_get_user_timeline_id)
+    def test_should_create_correct_url_when_calling_for_tweet_likers(self,mock_get):
+        twitt_id = "1234123123"
+        expected_url = "https://api.twitter.com/2/tweets/{}/liking_users".format(twitt_id)
+
+        self._twitter_connection.get_user_who_liked_the(twitt_id)
+
+        # Then
+        self.assertEquals(expected_url,mock_get.call_args_list[0][0][0], "Url not corretly created" )
 
 
-
-
-
-
-
-
+    @mock.patch('requests.get', side_effect=mocked__request_get_user_timeline_id)
+    def test_should_have_all_twitt_param_when_calling_for_tweet_likers(self,mock_get):
+        twitt_id = "1234123123"
+        response = self._twitter_connection.get_user_who_liked_the(twitt_id)
+        self.assertIsNotNone(response)
+        all_twitt_params = {    "tweet.fields":"created_at,text,geo,source,lang",
+                                "max_results" : 100,
+                                "place.fields" : "contained_within,country,country_code,full_name,geo,id,name,place_type",
+                                "expansions" : "geo.place_id"}
+        self.assertDictEqual(all_twitt_params, mock_get.call_args_list[0][1]['params'])
     # Co ja teraz chece zrobić? Chce zeby łączył się do twittera i pobierał informacje na temat uzytkownikow
+
+    @mock.patch('requests.get', side_effect=mocked__request_get_user_timeline_id)
+    def test_should_add_next_token_parm_only_when_specified(self, mock_get):
+        next_token = "7140dibdnow9c7btw423wysghff0nn2wdepybrvft9d88"
+        twitt_id = "1234123123"
+        self._twitter_connection.get_user_who_liked_the(twitt_id,  pagination_token= next_token)
+
+ 
+        self.assertEqual(next_token, mock_get.call_args_list[0][1]['params']['pagination_token'], "Should add connection token to params when specified")
+        
+        self._twitter_connection.get_user_time_line(_user_id)
+        self.assertNotIn('pagination_token', mock_get.call_args_list[1][1]['params'] )
