@@ -1,9 +1,6 @@
-import re
-from time import process_time_ns
 import unittest
 from src.twitterConnection import Connection as con
 from unittest import mock
-import requests
 
 class MockResponse:
     def __init__(self, json_data, status_code):
