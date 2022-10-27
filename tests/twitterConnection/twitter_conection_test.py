@@ -115,7 +115,7 @@ class TwitterConncectionTest(unittest.TestCase):
     def test_should_get_user_time_line(self, mock_get):
         response = self._twitter_connection.get_user_time_line(_user_id)
         self.assertIsNotNone(response)
-        url = "https://api.twitter.com/2/tweets/{}".format(_user_id)
+        url = "https://api.twitter.com/2/users/{}/tweets".format(_user_id)
         self.assertEqual(url,mock_get.call_args_list[0][0][0], "Url not correctly created")
     
     @mock.patch('requests.get', side_effect=mocked__request_get_user_timeline_id)

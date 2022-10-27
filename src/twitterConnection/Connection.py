@@ -9,9 +9,10 @@ class Connection():
         self._params = {"user.fields":"created_at,description,entities,id,location,name,profile_image_url,public_metrics,protected,url,username"}
         self._headers = {"Authorization": "Bearer {}".format(self._token)}
         self._twitt_parms = {   "tweet.fields":"created_at,text,geo,source,lang",
-                                "max_results" : 100,
+                                # "max_results" : 30,
                                 "place.fields" : "contained_within,country,country_code,full_name,geo,id,name,place_type",
-                                "expansions" : "geo.place_id"
+                                "expansions" : "geo.place_id",
+                                # "place.fields" : "country_code,full_name,geo,id,name,place_type"
                             }
 
     def _throw_exception_when_token_beare_is_None(self, token):
@@ -23,15 +24,18 @@ class Connection():
         url = "https://api.twitter.com/2/users/{}".format(id)  
         return  requests.get(url, headers = self._headers, params = self._params)
 
-    def get_user_time_line(self, id, next_token = None):
+    def get_user_time_line(self, id, next_token = None, max_results = 100):
         twitt_params = self._twitt_parms.copy()
         self._add_pagination_token_if_exists(next_token, twitt_params)
-        url = "https://api.twitter.com/2/tweets/{}".format(id)
+        twitt_params['max_results'] = max_results
+        url = "https://api.twitter.com/2/users/{}/tweets".format(id)
+        print(self._headers)
         return requests.get(url, headers = self._headers, params = twitt_params)
     
-    def get_user_who_liked_the(self,twitt_id, pagination_token = None):
+    def get_user_who_liked_the(self,twitt_id, pagination_token = None, max_results = 100):
         twitt_params = self._twitt_parms.copy()
         self._add_pagination_token_if_exists(pagination_token, twitt_params)
+        twitt_params['max_results'] = max_results
         url = "https://api.twitter.com/2/tweets/{}/liking_users".format(twitt_id)
         return requests.get(url, headers = self._headers, params = twitt_params)
 
@@ -40,3 +44,4 @@ class Connection():
             params['pagination_token'] = pagination_token
             pagination_token = None
         return params
+
