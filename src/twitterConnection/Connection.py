@@ -35,12 +35,12 @@ class Connection():
         return response
 
 
-    def getUserById(self,id):
+    def getUserById(self,id) -> requests.models.Response:
         url = "https://api.twitter.com/2/users/{}".format(id)  
         logging.info("Sending get request to {} with {}".format(url, self._params))
         return  self._sent_get(url, headers = self._headers, params = self._params)
 
-    def get_user_time_line(self, id, next_token = None, max_results = 100):
+    def get_user_time_line(self, id, next_token = None, max_results = 100) -> requests.models.Response:
         twitt_params = self._twitt_parms.copy()
         self._add_pagination_token_if_exists(next_token, twitt_params)
         twitt_params['max_results'] = max_results
@@ -48,7 +48,7 @@ class Connection():
         logging.error("Sending get request to {} with {}".format(url, self._params))
         return self._sent_get(url, headers = self._headers, params = twitt_params)
     
-    def get_user_who_liked_the_twitt(self,twitt_id, pagination_token = None, max_results = 100):
+    def get_user_who_liked_the_twitt(self,twitt_id, pagination_token = None, max_results = 100) -> requests.models.Response:
         twitt_params = self._twitt_parms.copy()
         self._add_pagination_token_if_exists(pagination_token, twitt_params)
         twitt_params['max_results'] = max_results

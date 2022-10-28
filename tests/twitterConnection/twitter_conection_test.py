@@ -1,13 +1,8 @@
 import unittest
 from src.twitterConnection import Connection as con
 from unittest import mock
+from tests.twitterConnection.test_helpers import MockResponse
 
-class MockResponse:
-    def __init__(self, json_data, status_code):
-        self.json_data = json_data
-        self.status_code = status_code
-    def json(self):
-        return self.json_data
 
 _user_id = 1460303834790731778
 
